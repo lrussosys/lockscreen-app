@@ -39,6 +39,8 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     [2, 5, 8],
   ];
 
+  counter = 0;
+  tempIndex = -1;
   // Stile grafico per hover sui dot
   // Rifare CSS per rendere le aree intorno ai div ben visibili
   // Salvare all'interno della matrice le coordinate, la larghezza e l'altezza dei dot
@@ -48,35 +50,54 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {}
   ngAfterViewInit(): void {
     console.log(this.dot);
-    for (var directive of this.dot) {
-      console.log(directive.nativeElement.getBoundingClientRect());
-      this.dotsLocation.push(directive.nativeElement.getBoundingClientRect());
+    this.dot.forEach((directive, i) => {
+      let elem = directive.nativeElement.getBoundingClientRect();
+      let x = elem.x;
+      let y = elem.y;
+      this.dotsLocation.push({
+        i: i,
+        y: y,
+        x: x,
+      });
       console.log(directive);
-    }
+    });
     console.log(this.dotsLocation);
   }
 
   onClick(e: any, type: string) {
     // console.log(e.target);
-    this.currentClickX = e.x;
-    this.currentClickY = e.y;
+    let x = e.touches.item(0)?.clientX;
+    let y = e.touches.item(0)?.clientY;
 
-    console.log(this.currentClickX, this.currentClickY);
+    // console.log(x, y);
 
-    console.log('x:', e.x, 'y:', e.y);
+    // console.log('x:', e.x, 'y:', e.y);
 
-    this.dotsLocation.forEach((dot) => {
-      if (
-        dot.x < this.currentClickX &&
-        this.currentClickX < dot.x + dot.width &&
-        dot.y < this.currentClickY &&
-        this.currentClickY < dot.y + dot.height
-      ) {
-        console.log('trovato');
-        console.log(dot.parentElement);
-      } else {
-        console.log('non trovato');
+    // this.dotsLocation.forEach((dot) => {
+    //     // dot.x < x < dot.x + dot.width
+    //   if (
+    //     dot.x < x &&
+    //     x < dot.x + dot.width &&
+    //     dot.y < y &&
+    //     y < dot.y + dot.height
+    //   ) {
+    //     console.log('trovato');
+    //     console.log(dot.parentElement);
+    //   } else {
+    //     console.log('non trovato');
+    //   }
+    // });
+
+    this.dotsLocation.forEach((dot, i) => {
+      if (dot.x <= x && dot.x + 30 >= x && dot.y <= y && dot.y + 30 >= y) {
+        // console.log('trovato');
+        console.log(this.tempIndex);
+        if (this.tempIndex < 0 && this.tempIndex != dot.i) {
+          this.tempIndex = dot.i;
+          this.counter++;
+        }
       }
+      this.tempIndex = -1;
     });
 
     // console.log(type, e.touches.item(0)?.clientX);
