@@ -4,11 +4,11 @@
   (touchstart)="onClick($event, 'start')"
   (touchmove)="onClick($event, 'move')"
   (touchend)="onClick($event, 'end')"
-  
 >
-  <div *ngFor="let dot of dots">
-    <div *ngFor="let d of dot" class="dot">
-      {{ d }}
+  <div *ngFor="let dot of dots" class="dotRow">
+    <div *ngFor="let d of dot" class="dot" #dot>
+      <div class="innerDot"></div>
+      <!-- {{ d }} -->
     </div>
     <br />
   </div>

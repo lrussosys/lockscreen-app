@@ -1,12 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 
 @Component({
   selector: 'app-set-lockscreen',
   templateUrl: './set-lockscreen.component.html',
   styleUrls: ['./set-lockscreen.component.css'],
 })
-export class SetLockscreenComponent implements OnInit {
+export class SetLockscreenComponent implements OnInit, AfterViewInit {
   constructor() {}
+  @ViewChildren('dot') dot!: QueryList<ElementRef>;
+  dotsLocation: any[] = [];
 
   //   dots = [
   //     { id: 0, valid: false },
@@ -25,19 +35,25 @@ export class SetLockscreenComponent implements OnInit {
     [1, 4, 7],
     [2, 5, 8],
   ];
-  
-// Stile grafico per hover sui dot
-// Rifare CSS per rendere le aree intorno ai div ben visibili
-// Salvare all'interno della matrice le coordinate, la larghezza e l'altezza dei dot
-// Durante il touchmove verificare che le coordinate dell'evento siano comprese nell'area di almeno uno dei nove dot calcolati in precedenza
-// Verificata la condizione precedente, salvare all'interno di un array la sequenza risultante (seq max: max 6 dot)
+
+  // Stile grafico per hover sui dot
+  // Rifare CSS per rendere le aree intorno ai div ben visibili
+  // Salvare all'interno della matrice le coordinate, la larghezza e l'altezza dei dot
+  // Durante il touchmove verificare che le coordinate dell'evento siano comprese nell'area di almeno uno dei nove dot calcolati in precedenza
+  // Verificata la condizione precedente, salvare all'interno di un array la sequenza risultante (seq max: max 6 dot)
 
   ngOnInit(): void {}
+  ngAfterViewInit(): void {
+    console.log(this.dot);
+    for (var directive of this.dot) {
+      console.log(directive.nativeElement.getBoundingClientRect());
+      this.dotsLocation.push(directive.nativeElement.getBoundingClientRect());
+    }
+    console.log(this.dotsLocation);
+  }
 
   onClick(e: any, type: string) {
     // console.log(e.target);
     console.log(type, e.touches.item(0));
-
   }
-
 }
