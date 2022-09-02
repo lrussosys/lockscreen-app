@@ -18,6 +18,9 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
   @ViewChildren('dot') dot!: QueryList<ElementRef>;
   dotsLocation: any[] = [];
 
+  currentClickX: any;
+  currentClickY: any;
+
   //   dots = [
   //     { id: 0, valid: false },
   //     { id: 1, valid: false },
@@ -48,12 +51,34 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     for (var directive of this.dot) {
       console.log(directive.nativeElement.getBoundingClientRect());
       this.dotsLocation.push(directive.nativeElement.getBoundingClientRect());
+      console.log(directive);
     }
     console.log(this.dotsLocation);
   }
 
   onClick(e: any, type: string) {
     // console.log(e.target);
-    console.log(type, e.touches.item(0));
+    this.currentClickX = e.x;
+    this.currentClickY = e.y;
+
+    console.log(this.currentClickX, this.currentClickY);
+
+    console.log('x:', e.x, 'y:', e.y);
+
+    this.dotsLocation.forEach((dot) => {
+      if (
+        dot.x < this.currentClickX &&
+        this.currentClickX < dot.x + dot.width &&
+        dot.y < this.currentClickY &&
+        this.currentClickY < dot.y + dot.height
+      ) {
+        console.log('trovato');
+        console.log(dot.parentElement);
+      } else {
+        console.log('non trovato');
+      }
+    });
+
+    // console.log(type, e.touches.item(0)?.clientX);
   }
 }

@@ -43,3 +43,6 @@
   justify-items: center;
   height: 60%;
 }
+.testo {
+  display: none;
+}

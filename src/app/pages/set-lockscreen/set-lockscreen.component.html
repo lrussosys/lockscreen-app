@@ -1,15 +1,14 @@
 <h2 class="title">Set Lock Pattern</h2>
-<div
-  class="dots-wrapper"
-  (touchstart)="onClick($event, 'start')"
-  (touchmove)="onClick($event, 'move')"
-  (touchend)="onClick($event, 'end')"
->
-  <div *ngFor="let dot of dots" class="dotRow">
-    <div *ngFor="let d of dot" class="dot" #dot>
-      <div class="innerDot"></div>
-      <!-- {{ d }} -->
+<div class="dots-wrapper" (click)="onClick($event, 'start')">
+  <div *ngFor="let dot of dots; index as i" class="dotRow">
+    <div *ngFor="let d of dot; index as j" class="dot" #dot>
+      <div class="innerDot">
+        <div class="testo">{{ d }}</div>
+      </div>
     </div>
     <br />
   </div>
 </div>
+<!-- (touchstart)="onClick($event, 'start')"
+(touchmove)="onClick($event, 'move')"
+(touchend)="onClick($event, 'end')" -->
