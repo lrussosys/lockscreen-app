@@ -34,9 +34,9 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
   //   ];
 
   dots = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
   ];
 
   counter = 0;
@@ -47,7 +47,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
   // Durante il touchmove verificare che le coordinate dell'evento siano comprese nell'area di almeno uno dei nove dot calcolati in precedenza
   // Verificata la condizione precedente, salvare all'interno di un array la sequenza risultante (seq max: max 6 dot)
 
-  combinazione: Array<number> = [1, 3, 6];
+  combinazione: Array<number> = [0, 3, 6];
   combinazioneDigitata: Array<number> = [];
 
   ngOnInit(): void {}
@@ -95,10 +95,10 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
       if (dot.x <= x && dot.x + 30 >= x && dot.y <= y && dot.y + 30 >= y) {
         console.log('trovato');
         console.log(this.tempIndex);
-        if ((dot.i = this.combinazione[i])) {
-          this.combinazioneDigitata.push(dot.i);
-          console.log(this.combinazioneDigitata);
-        }
+        // if ((dot.i = this.combinazione[i])) {
+        //   this.combinazioneDigitata.push(dot.i);
+        //   console.log(this.combinazioneDigitata);
+        // }
         console.log(dot.i);
         if (this.tempIndex < 0 && this.tempIndex != dot.i) {
           this.tempIndex = dot.i;
