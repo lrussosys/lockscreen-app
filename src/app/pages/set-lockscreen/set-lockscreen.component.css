@@ -4,17 +4,15 @@
 }
 
 .dot {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
+  padding: 10px;
+  background-color: white;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0);
-  width: 30px;
-  height: 30px;
-  color: black;
-  font-weight: bold;
-  border: 2px solid transparent;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .dotRow {
   padding: 1rem;
@@ -24,12 +22,7 @@
   justify-content: space-between;
   align-items: center;
 }
-.innerDot {
-  background-color: white;
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-}
+
 .dot:hover {
   border: 2px solid white;
 }

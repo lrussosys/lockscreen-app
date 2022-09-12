@@ -1,13 +1,7 @@
 <h2 class="title">Set Lock Pattern</h2>
-<div>counter {{ counter }}</div>
-<div class="dots-wrapper" (touchmove)="onClick($event, 'move')">
-  <div *ngFor="let dot of dots; index as i" class="dotRow">
-    <div *ngFor="let d of dot; index as j" class="dot" #dot>
-      <div class="innerDot">
-        <div class="testo">{{ d }}</div>
-      </div>
-    </div>
-    <br />
+<div class="dots-wrapper">
+  <div *ngFor="let dot of dots; index as i" class="dot">
+    <div class="testo">{{ dot }}</div>
   </div>
 </div>
 <!-- (touchstart)="onClick($event, 'start')"
