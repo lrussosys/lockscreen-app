@@ -5,7 +5,7 @@
 
 .dot {
   padding: 10px;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0);
   border-radius: 50%;
   text-align: center;
   width: 50px;
@@ -13,6 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid transparent;
 }
 .dotRow {
   padding: 1rem;
@@ -23,8 +24,10 @@
   align-items: center;
 }
 
-.dot:hover {
-  border: 2px solid white;
+.dot:hover{
+
+  border: 1px solid white;
+  background-color:rgba(255, 255, 255, 0.308)
 }
 
 .dots-wrapper {
@@ -36,6 +39,27 @@
   justify-items: center;
   height: 60%;
 }
-/* .testo {
-  display: none;
-} */
+.testo {
+  width: 25px;
+  height: 25px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.line{
+  /* position: absolute;
+  width: 100px;
+  height: 10px;
+  top: 42%;
+  left: 20%;
+  background-color: rgba(0, 0, 0, 0); */
+  width: calc((162.484375px) - (37.15625px));
+  background-color: black;
+  height: 1px;
+  top: calc(261.359375px + 25px);
+  left: calc(37.15625px + 25px);
+  position: fixed
+}
