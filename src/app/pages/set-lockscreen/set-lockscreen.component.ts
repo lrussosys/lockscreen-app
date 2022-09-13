@@ -15,6 +15,7 @@ import {
 })
 export class SetLockscreenComponent implements OnInit, AfterViewInit {
   @ViewChildren('dot') dot!: QueryList<ElementRef>;
+
   constructor() {}
 
   dots: any = [
@@ -28,32 +29,43 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     { i: 7 },
     { i: 8 },
   ];
-  combinazioneEsatta = [3, 5, 6];
+  combinazioneEsatta = [0, 3, 4];
   combinazioneDigitata: any = [];
+  counter = 0;
 
   ngOnInit(): void {}
   ngAfterViewInit(): void {
-    this.addCoordinates();
+    setTimeout(()=> {
+      this.addCoordinates();
+    },1)
     console.log(this.dots);
   }
   onClick(dot: any, i: any) {
-    if (!this.combinazioneDigitata.includes(dot)) {
-      this.combinazioneDigitata.push(dot);
+    this.counter++
+    this.combinazioneDigitata.push(dot);
+    if(this.combinazioneEsatta.length == this.combinazioneDigitata.length){
+      let temp = this.combinazioneEsatta.filter((c, index)=> {
+        return this.combinazioneDigitata[index].i == c
+      })
+      if(temp.length === this.combinazioneEsatta.length){
+        console.log('trovata')
+      }else{
+        this.combinazioneDigitata = []
+        alert('riprova')
+      }
     }
+    if(this.combinazioneDigitata.length > this.combinazioneEsatta.length){
+      this.combinazioneDigitata = []
+      alert('riprova')
+    }
+  
     console.log(this.combinazioneDigitata);
-    if (
-      JSON.stringify(this.combinazioneDigitata) ==
-      JSON.stringify(this.combinazioneEsatta)
-    ) {
-      console.log('esatta');
-    }
 
-    this.createLine()
+    this.createLine(this.combinazioneDigitata);
   }
 
   addCoordinates() {
     this.dot.forEach((HTMLel, i = 0) => {
-
       let elem = HTMLel.nativeElement.getBoundingClientRect();
       console.log(elem);
 
@@ -65,30 +77,34 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
         bottom: elem.bottom,
         right: elem.right,
         left: elem.left,
-        width:elem.width,
-        height: elem.height
+        width: elem.width,
+        height: elem.height,
       };
-      i++
+      i++;
     });
+
   }
 
-  createLine(){
+  createLine(obj:any) {
+    if (this.combinazioneDigitata.length >= 2) {
+      let parent: any = document.getElementById('line');
 
-    if( this.combinazioneDigitata.length >= 2){
+      let newDiv: any = document.createElement('div');
 
-      let parent:any = document.getElementById('line')
-      
-         let newDiv:any = document.createElement('div')
-       
-         parent.appendChild(newDiv)
-         newDiv.style.width = '100px'
-         newDiv.style.height = '100px'
-         newDiv.style.background = 'red'
-         
+      parent.appendChild(newDiv)
+      newDiv.style.width = (obj[1]?.x - obj[0]?.x)+'px';
+      newDiv.style.height = '1px';
+      newDiv.style.background = 'black';
+      newDiv.style.top = (obj[0]?.top + (obj[0]?.height/2))+'px'
+      newDiv.style.left = (obj[0]?.left + (obj[0]?.width/2))+'px'
+      newDiv.style.position = 'fixed'
+
     }
-
-
   }
-
-
 }
+// width: calc((162.484375px) - (37.15625px));
+// background-color: black;
+// height: 1px;
+// top: calc(261.359375px + 25px);
+// left: calc(37.15625px + 25px);
+// position: fixed
