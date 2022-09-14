@@ -29,7 +29,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     { i: 7 },
     { i: 8 },
   ];
-  combinazioneEsatta = [0, 4, 2];
+  combinazioneEsatta = [0, 7, 2];
   combinazioneDigitata: any = [];
   counter = 0;
   newDiv!: any;
@@ -156,7 +156,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
         let y = secondClick.y - firstClick.y;
         let x = secondClick.x - firstClick.x;
 
-        // verifica direzione
+        // verifica direzione diagonale
         let inclination =
           x > 0
             ? -Math.abs((Math.atan2(x, y) * 180) / Math.PI)
