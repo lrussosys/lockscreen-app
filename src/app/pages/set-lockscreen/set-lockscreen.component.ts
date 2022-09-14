@@ -29,36 +29,41 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     { i: 7 },
     { i: 8 },
   ];
-  combinazioneEsatta = [0, 3, 4];
+  combinazioneEsatta = [0, 3, 6];
   combinazioneDigitata: any = [];
   counter = 0;
+  newDiv!: any;
+  linesCollection!: any;
 
   ngOnInit(): void {}
   ngAfterViewInit(): void {
-    setTimeout(()=> {
+    setTimeout(() => {
       this.addCoordinates();
-    },1)
+    }, 1);
     console.log(this.dots);
   }
+
   onClick(dot: any, i: any) {
-    this.counter++
+    this.counter++;
     this.combinazioneDigitata.push(dot);
-    if(this.combinazioneEsatta.length == this.combinazioneDigitata.length){
-      let temp = this.combinazioneEsatta.filter((c, index)=> {
-        return this.combinazioneDigitata[index].i == c
-      })
-      if(temp.length === this.combinazioneEsatta.length){
-        console.log('trovata')
-      }else{
-        this.combinazioneDigitata = []
-        alert('riprova')
+    if (this.combinazioneEsatta.length == this.combinazioneDigitata.length) {
+      let temp = this.combinazioneEsatta.filter((c, index) => {
+        return this.combinazioneDigitata[index].i == c;
+      });
+      if (temp.length === this.combinazioneEsatta.length) {
+        console.log('trovata');
+      } else {
+        this.combinazioneDigitata = [];
+        alert('riprova');
+        this.removeLines();
       }
     }
-    if(this.combinazioneDigitata.length > this.combinazioneEsatta.length){
-      this.combinazioneDigitata = []
-      alert('riprova')
+    if (this.combinazioneDigitata.length > this.combinazioneEsatta.length) {
+      this.combinazioneDigitata = [];
+      alert('riprova');
+      this.removeLines();
     }
-  
+
     console.log(this.combinazioneDigitata);
 
     this.createLine(this.combinazioneDigitata);
@@ -67,7 +72,6 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
   addCoordinates() {
     this.dot.forEach((HTMLel, i = 0) => {
       let elem = HTMLel.nativeElement.getBoundingClientRect();
-      console.log(elem);
 
       this.dots[i] = {
         i: i,
@@ -82,23 +86,102 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
       };
       i++;
     });
-
   }
 
-  createLine(obj:any) {
-    if (this.combinazioneDigitata.length >= 2) {
-      let parent: any = document.getElementById('line');
+  createLine(obj: any) {
+    console.log(obj);
 
-      let newDiv: any = document.createElement('div');
+    // x = è verticale
+    // y = è orizzontale
+    // x e y != allora diagonale
 
-      parent.appendChild(newDiv)
-      newDiv.style.width = (obj[1]?.x - obj[0]?.x)+'px';
-      newDiv.style.height = '1px';
-      newDiv.style.background = 'black';
-      newDiv.style.top = (obj[0]?.top + (obj[0]?.height/2))+'px'
-      newDiv.style.left = (obj[0]?.left + (obj[0]?.width/2))+'px'
-      newDiv.style.position = 'fixed'
+    if (obj.length >= 2) {
+      // orizzontale
+      if (obj[obj.length - 1].y == obj[obj.length - 2].y) {
+        // rendere metodo
+        let parent: any = document.getElementById('line');
 
+        this.newDiv = document.createElement('div');
+
+        this.newDiv.classList.add('line-elem');
+
+        parent.appendChild(this.newDiv);
+        //
+
+        // linea verso destra
+        if (obj[obj.length - 1].x > obj[obj.length - 2].x) {
+          this.newDiv.style.width =
+            obj[obj.length - 1]?.x - obj[obj.length - 2]?.x + 'px';
+          this.newDiv.style.left =
+            obj[obj.length - 2]?.left + obj[obj.length - 2]?.width / 2 + 'px';
+          // linea verso sinistra
+        } else {
+          this.newDiv.style.width =
+            obj[obj.length - 2]?.x - obj[obj.length - 1]?.x + 'px';
+          this.newDiv.style.left =
+            obj[obj.length - 1].x + obj[obj.length - 2]?.width / 2 + 'px';
+        }
+
+        this.newDiv.style.height = '1px';
+        this.newDiv.style.background = 'black';
+        this.newDiv.style.top =
+          obj[obj.length - 2]?.top + obj[obj.length - 2]?.height / 2 + 'px';
+        // this.newDiv.style.left =
+        //   obj[obj.length - 2]?.left + obj[obj.length - 2]?.width / 2 + 'px';
+        this.newDiv.style.position = 'fixed';
+
+        // verticale
+      } else if (obj[obj.length - 1].x == obj[obj.length - 2].x) {
+        // rendere metodo
+        let parent: any = document.getElementById('line');
+
+        this.newDiv = document.createElement('div');
+
+        this.newDiv.classList.add('line-elem');
+
+        parent.appendChild(this.newDiv);
+        //
+        this.newDiv.style.width = '1px';
+        this.newDiv.style.height =
+          obj[obj.length - 1]?.y - obj[obj.length - 2]?.y + 'px';
+        this.newDiv.style.background = 'black';
+        this.newDiv.style.top =
+          obj[obj.length - 2]?.top + obj[obj.length - 2]?.height / 2 + 'px';
+        this.newDiv.style.left =
+          obj[obj.length - 2]?.left + obj[obj.length - 2]?.width / 2 + 'px';
+        this.newDiv.style.position = 'fixed';
+        // diagonale
+      } else if (
+        obj[obj.length - 1].x !== obj[obj.length - 2].x &&
+        obj[obj.length - 1].y !== obj[obj.length - 2].y
+      ) {
+        // rendere metodo
+        let parent: any = document.getElementById('line');
+
+        this.newDiv = document.createElement('div');
+
+        this.newDiv.classList.add('line-elem');
+
+        parent.appendChild(this.newDiv);
+        //
+        this.newDiv.style.width = '1px';
+        this.newDiv.style.height =
+          obj[obj.length - 1]?.y - obj[obj.length - 2]?.y + 'px';
+        this.newDiv.style.background = 'black';
+        this.newDiv.style.top =
+          obj[obj.length - 2]?.top + obj[obj.length - 2]?.height / 2 + 'px';
+        this.newDiv.style.left =
+          obj[obj.length - 2]?.left + obj[obj.length - 2]?.width / 2 + 'px';
+        this.newDiv.style.position = 'fixed';
+      }
+    }
+  }
+
+  removeLines() {
+    this.linesCollection = document.getElementsByClassName('line-elem');
+
+    for (let i = this.linesCollection.length - 1; i >= 0; --i) {
+      this.linesCollection[i].remove();
     }
   }
 }

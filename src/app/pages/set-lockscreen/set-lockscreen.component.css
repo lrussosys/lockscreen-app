@@ -49,17 +49,16 @@
   justify-content: center;
   z-index: 2;
 }
-.line{
+
   /* position: absolute;
   width: 100px;
   height: 10px;
   top: 42%;
   left: 20%;
   background-color: rgba(0, 0, 0, 0); */
-  width: calc((162.484375px) - (37.15625px));
+  /* width: calc((162.484375px) - (37.15625px));
   background-color: black;
   height: 1px;
   top: calc(261.359375px + 25px);
   left: calc(37.15625px + 25px);
-  position: fixed
-}
+  position: fixed */
