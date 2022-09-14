@@ -29,15 +29,15 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     { i: 7 },
     { i: 8 },
   ];
-  combinazioneEsatta = [0, 7, 2];
+  combinazioneEsatta = [0, 1, 2];
   combinazioneDigitata: any = [];
-  counter = 0;
   newDiv!: any;
   linesCollection!: any;
 
   correct: boolean = false;
 
   ngOnInit(): void {}
+
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.addCoordinates();
@@ -46,7 +46,9 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
   }
 
   onClick(dot: any, i: any) {
-    this.counter++;
+    dot.selected = true;
+    console.log(this.combinazioneDigitata[i]);
+    // if(this.combinazioneDigitata[i])
     this.combinazioneDigitata.push(dot);
     if (this.combinazioneEsatta.length == this.combinazioneDigitata.length) {
       let temp = this.combinazioneEsatta.filter((c, index) => {
@@ -54,23 +56,20 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
       });
       if (temp.length === this.combinazioneEsatta.length) {
         console.log('trovata');
+        this.correct = true;
       } else {
-        this.combinazioneDigitata = [];
-        alert('riprova');
-        this.removeLines();
+        this.combinazioneSbagliata();
       }
     }
     if (this.combinazioneDigitata.length > this.combinazioneEsatta.length) {
-      this.combinazioneDigitata = [];
-      alert('riprova');
-      this.removeLines();
+      this.combinazioneSbagliata();
     }
 
     console.log(this.combinazioneDigitata);
 
     this.getLineParameters(this.combinazioneDigitata);
   }
-
+  // trova le coordinate e le mette dell`oggetto dots
   addCoordinates() {
     this.dot.forEach((HTMLel, i = 0) => {
       let elem = HTMLel.nativeElement.getBoundingClientRect();
@@ -85,6 +84,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
         left: elem.left,
         width: elem.width,
         height: elem.height,
+        selected: false,
       };
       i++;
     });
@@ -92,10 +92,9 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
 
   getLineParameters(obj: any) {
     console.log(obj);
-
-    // x = è verticale
-    // y = è orizzontale
-    // x e y != allora diagonale
+    // se le x sono uguali la linea è verticale
+    // se le y sono uguali la linea è orizzontale
+    // se le x e le y sono diverse allora la linea é diagonale
 
     let firstClick = obj[obj.length - 2];
     let secondClick = obj[obj.length - 1];
@@ -105,21 +104,14 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
       if (secondClick.y == firstClick.y) {
         this.createLine();
 
-        // linea verso destra
         if (secondClick.x > firstClick.x) {
-          this.newDiv.style.width = secondClick?.x - firstClick?.x + 'px';
-          this.newDiv.style.left =
-            firstClick?.left + firstClick?.width / 2 + 'px';
-          // linea verso sinistra
+          // fa la linea verso destra
+          this.lineaVersoDestra(secondClick, firstClick);
         } else {
-          this.newDiv.style.width = firstClick?.x - secondClick?.x + 'px';
-          this.newDiv.style.left = secondClick.x + firstClick?.width / 2 + 'px';
+          // fa la linea verso sinistra
+          this.lineaVersoSinistra(secondClick, firstClick);
         }
-
-        this.newDiv.style.height = '1px';
-        this.newDiv.style.background = 'black';
-        this.newDiv.style.top = firstClick?.top + firstClick?.height / 2 + 'px';
-        this.newDiv.style.position = 'fixed';
+        this.stileLineaOrizontale(firstClick);
 
         // verticale
       } else if (secondClick.x == firstClick.x) {
@@ -127,26 +119,12 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
 
         // linea verso basso
         if (secondClick.y > firstClick.y) {
-          this.newDiv.style.top =
-            firstClick?.top + firstClick?.height / 2 + 'px';
-
-          this.newDiv.style.height = secondClick?.y - firstClick?.y + 'px';
+          this.lineaVersoGiú(secondClick, firstClick);
 
           // linea verso alto
         } else {
-          this.newDiv.style.top =
-            secondClick?.y + firstClick?.height / 2 + 'px';
-
-          this.newDiv.style.height = firstClick?.y - secondClick?.y + 'px';
+          this.lineaVersoSú(secondClick, firstClick);
         }
-
-        this.newDiv.style.width = '1px';
-
-        this.newDiv.style.background = 'black';
-
-        this.newDiv.style.left =
-          firstClick?.left + firstClick?.width / 2 + 'px';
-        this.newDiv.style.position = 'fixed';
 
         // diagonale
       } else if (
@@ -184,11 +162,8 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
 
   createLine() {
     let parent: any = document.getElementById('line');
-
     this.newDiv = document.createElement('div');
-
     this.newDiv.classList.add('line-elem');
-
     parent.appendChild(this.newDiv);
   }
 
@@ -198,5 +173,51 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     for (let i = this.linesCollection.length - 1; i >= 0; --i) {
       this.linesCollection[i].remove();
     }
+  }
+  combinazioneSbagliata() {
+    this.removeLines();
+    this.combinazioneDigitata.forEach((el: any) => {
+      el.selected = false;
+    });
+    this.combinazioneDigitata = [];
+    this.correct = false;
+    alert('riprova');
+  }
+
+  lineaVersoDestra(secondClick: any, firstClick: any) {
+    this.newDiv.style.width = secondClick?.x - firstClick?.x + 'px';
+    this.newDiv.style.left = firstClick?.left + firstClick?.width / 2 + 'px';
+  }
+  lineaVersoSinistra(secondClick: any, firstClick: any) {
+    this.newDiv.style.width = firstClick?.x - secondClick?.x + 'px';
+    this.newDiv.style.left = secondClick.x + firstClick?.width / 2 + 'px';
+  }
+
+  stileLineaOrizontale(firstClick: any) {
+    this.newDiv.style.height = '1px';
+    this.newDiv.style.background = 'black';
+    this.newDiv.style.top = firstClick?.top + firstClick?.height / 2 + 'px';
+    this.newDiv.style.position = 'fixed';
+  }
+  lineaVersoGiú(secondClick: any, firstClick: any) {
+    this.newDiv.style.top = firstClick?.top + firstClick?.height / 2 + 'px';
+    this.newDiv.style.height = secondClick?.y - firstClick?.y + 'px';
+    this.newDiv.style.width = '1px';
+
+    this.newDiv.style.background = 'black';
+    this.newDiv.style.left = firstClick?.left + firstClick?.width / 2 + 'px';
+    this.newDiv.style.position = 'fixed';
+  }
+  lineaVersoSú(secondClick: any, firstClick: any) {
+    this.newDiv.style.top = secondClick?.y + firstClick?.height / 2 + 'px';
+
+    this.newDiv.style.height = firstClick?.y - secondClick?.y + 'px';
+
+    this.newDiv.style.width = '1px';
+
+    this.newDiv.style.background = 'black';
+
+    this.newDiv.style.left = firstClick?.left + firstClick?.width / 2 + 'px';
+    this.newDiv.style.position = 'fixed';
   }
 }

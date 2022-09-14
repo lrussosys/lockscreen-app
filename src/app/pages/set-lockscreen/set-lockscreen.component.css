@@ -24,10 +24,9 @@
   align-items: center;
 }
 
-.dot:hover{
-
+.dot.selected {
   border: 1px solid white;
-  background-color:rgba(255, 255, 255, 0.308)
+  background-color: rgba(255, 255, 255, 0.308);
 }
 
 .dots-wrapper {
@@ -39,9 +38,10 @@
   justify-items: center;
   height: 60%;
 }
-.testo {
+.innerDot {
   width: 25px;
   height: 25px;
+  border: none;
   background-color: white;
   border-radius: 50%;
   display: flex;
@@ -51,20 +51,20 @@
 }
 
 .lock-container {
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    color: white;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  color: white;
 }
-  /* position: absolute;
+/* position: absolute;
   width: 100px;
   height: 10px;
   top: 42%;
   left: 20%;
   background-color: rgba(0, 0, 0, 0); */
-  /* width: calc((162.484375px) - (37.15625px));
+/* width: calc((162.484375px) - (37.15625px));
   background-color: black;
   height: 1px;
   top: calc(261.359375px + 25px);

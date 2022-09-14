@@ -7,8 +7,15 @@
 
 <div class="dots-wrapper" id="line">
   <!-- <div class="line"></div> -->
-  <div *ngFor="let dot of dots; index as i" class="dot" #dot>
-    <div class="testo" (click)="onClick(dot, i)">{{ dot?.i }}</div>
+  <div
+    [ngClass]="dot.selected ? 'selected' : ''"
+    *ngFor="let dot of dots; index as i"
+    class="dot"
+    #dot
+  >
+    <button class="innerDot" (click)="onClick(dot, i)">
+      {{ dot?.i }}
+    </button>
   </div>
 </div>
 <!-- (touchstart)="onClick($event, 'start')"
