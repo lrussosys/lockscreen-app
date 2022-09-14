@@ -66,7 +66,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
 
     console.log(this.combinazioneDigitata);
 
-    this.createLine(this.combinazioneDigitata);
+    this.getLineParameters(this.combinazioneDigitata);
   }
 
   addCoordinates() {
@@ -88,93 +88,106 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     });
   }
 
-  createLine(obj: any) {
+  getLineParameters(obj: any) {
     console.log(obj);
 
     // x = è verticale
     // y = è orizzontale
     // x e y != allora diagonale
 
+    let firstClick = obj[obj.length - 2]
+    let secondClick = obj[obj.length - 1]
+
     if (obj.length >= 2) {
       // orizzontale
-      if (obj[obj.length - 1].y == obj[obj.length - 2].y) {
-        // rendere metodo
-        let parent: any = document.getElementById('line');
-
-        this.newDiv = document.createElement('div');
-
-        this.newDiv.classList.add('line-elem');
-
-        parent.appendChild(this.newDiv);
-        //
+      if (secondClick.y == firstClick.y) {
+        this.createLine();
 
         // linea verso destra
-        if (obj[obj.length - 1].x > obj[obj.length - 2].x) {
+        if (secondClick.x > firstClick.x) {
           this.newDiv.style.width =
-            obj[obj.length - 1]?.x - obj[obj.length - 2]?.x + 'px';
+            secondClick?.x - firstClick?.x + 'px';
           this.newDiv.style.left =
-            obj[obj.length - 2]?.left + obj[obj.length - 2]?.width / 2 + 'px';
+            firstClick?.left + firstClick?.width / 2 + 'px';
           // linea verso sinistra
         } else {
           this.newDiv.style.width =
-            obj[obj.length - 2]?.x - obj[obj.length - 1]?.x + 'px';
+            firstClick?.x - secondClick?.x + 'px';
           this.newDiv.style.left =
-            obj[obj.length - 1].x + obj[obj.length - 2]?.width / 2 + 'px';
+            secondClick.x + firstClick?.width / 2 + 'px';
         }
 
         this.newDiv.style.height = '1px';
         this.newDiv.style.background = 'black';
         this.newDiv.style.top =
-          obj[obj.length - 2]?.top + obj[obj.length - 2]?.height / 2 + 'px';
-        // this.newDiv.style.left =
-        //   obj[obj.length - 2]?.left + obj[obj.length - 2]?.width / 2 + 'px';
+          firstClick?.top + firstClick?.height / 2 + 'px';
         this.newDiv.style.position = 'fixed';
 
         // verticale
-      } else if (obj[obj.length - 1].x == obj[obj.length - 2].x) {
-        // rendere metodo
-        let parent: any = document.getElementById('line');
+      } else if (secondClick.x == firstClick.x) {
+        this.createLine();
 
-        this.newDiv = document.createElement('div');
+        // linea verso basso
+        if (secondClick.y > firstClick.y) {
+          this.newDiv.style.top =
+            firstClick?.top + firstClick?.height / 2 + 'px';
 
-        this.newDiv.classList.add('line-elem');
+          this.newDiv.style.height =
+            secondClick?.y - firstClick?.y + 'px';
 
-        parent.appendChild(this.newDiv);
-        //
+          // linea verso alto
+        } else {
+          this.newDiv.style.top =
+            secondClick?.y + firstClick?.height / 2 + 'px';
+
+          this.newDiv.style.height =
+            firstClick?.y - secondClick?.y + 'px';
+        }
+
         this.newDiv.style.width = '1px';
-        this.newDiv.style.height =
-          obj[obj.length - 1]?.y - obj[obj.length - 2]?.y + 'px';
+
         this.newDiv.style.background = 'black';
-        this.newDiv.style.top =
-          obj[obj.length - 2]?.top + obj[obj.length - 2]?.height / 2 + 'px';
+
         this.newDiv.style.left =
-          obj[obj.length - 2]?.left + obj[obj.length - 2]?.width / 2 + 'px';
+          firstClick?.left + firstClick?.width / 2 + 'px';
         this.newDiv.style.position = 'fixed';
+
         // diagonale
       } else if (
-        obj[obj.length - 1].x !== obj[obj.length - 2].x &&
-        obj[obj.length - 1].y !== obj[obj.length - 2].y
+        secondClick.x !== firstClick.x &&
+        secondClick.y !== firstClick.y
       ) {
-        // rendere metodo
-        let parent: any = document.getElementById('line');
+        let y = firstClick.y - secondClick.y;
+        let x = firstClick.x - secondClick.x;
 
-        this.newDiv = document.createElement('div');
+        console.log(Math.atan2(y, x));
+        this.createLine();
 
-        this.newDiv.classList.add('line-elem');
+        // calcolo distanza tra due punti
+        let tempx = secondClick.x - firstClick.x;
+        let tempy = secondClick.y - firstClick.y;
+        let distance = Math.sqrt(tempx * tempx + tempy * tempy);
 
-        parent.appendChild(this.newDiv);
-        //
         this.newDiv.style.width = '1px';
-        this.newDiv.style.height =
-          obj[obj.length - 1]?.y - obj[obj.length - 2]?.y + 'px';
+        this.newDiv.style.height = distance + 'px';
         this.newDiv.style.background = 'black';
         this.newDiv.style.top =
-          obj[obj.length - 2]?.top + obj[obj.length - 2]?.height / 2 + 'px';
+          firstClick?.top + firstClick?.height / 2 + 'px';
         this.newDiv.style.left =
-          obj[obj.length - 2]?.left + obj[obj.length - 2]?.width / 2 + 'px';
+          firstClick?.left + firstClick?.width / 2 + 'px';
         this.newDiv.style.position = 'fixed';
       }
     }
+  }
+
+  createLine() {
+    let parent: any = document.getElementById('line');
+
+    this.newDiv = document.createElement('div');
+
+    this.newDiv.classList.add('line-elem');
+
+    parent.appendChild(this.newDiv);
   }
 
   removeLines() {
@@ -185,9 +198,3 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     }
   }
 }
-// width: calc((162.484375px) - (37.15625px));
-// background-color: black;
-// height: 1px;
-// top: calc(261.359375px + 25px);
-// left: calc(37.15625px + 25px);
-// position: fixed
