@@ -33,6 +33,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
   combinazioneDigitata: any = [];
   newDiv!: any;
   linesCollection!: any;
+  currentValue: any;
 
   correct: boolean = false;
 
@@ -47,9 +48,13 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
 
   onClick(dot: any, i: any) {
     dot.selected = true;
-    console.log(this.combinazioneDigitata[i]);
-    // if(this.combinazioneDigitata[i])
-    this.combinazioneDigitata.push(dot);
+
+    // controllo se il valore inserito é giá presente nell`array digitato
+    if (this.combinazioneDigitata.indexOf(dot) === -1) {
+      this.combinazioneDigitata.push(dot);
+    }
+    console.log(this.combinazioneDigitata);
+
     if (this.combinazioneEsatta.length == this.combinazioneDigitata.length) {
       let temp = this.combinazioneEsatta.filter((c, index) => {
         return this.combinazioneDigitata[index].i == c;
