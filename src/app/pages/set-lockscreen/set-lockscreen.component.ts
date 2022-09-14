@@ -29,14 +29,13 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     { i: 7 },
     { i: 8 },
   ];
-  combinazioneEsatta = [0, 6, 8];
+  combinazioneEsatta = [0, 4, 2];
   combinazioneDigitata: any = [];
   counter = 0;
   newDiv!: any;
   linesCollection!: any;
-  
-  correct: boolean = false;
 
+  correct: boolean = false;
 
   ngOnInit(): void {}
   ngAfterViewInit(): void {
@@ -154,10 +153,15 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
         secondClick.x !== firstClick.x &&
         secondClick.y !== firstClick.y
       ) {
-        let y = firstClick.y - secondClick.y;
-        let x = firstClick.x - secondClick.x;
+        let y = secondClick.y - firstClick.y;
+        let x = secondClick.x - firstClick.x;
 
-        console.log(Math.atan2(y, x));
+        // verifica direzione
+        let inclination =
+          x > 0
+            ? -Math.abs((Math.atan2(x, y) * 180) / Math.PI)
+            : Math.abs((Math.atan2(x, y) * 180) / Math.PI);
+        console.log(inclination);
         this.createLine();
 
         // calcolo distanza tra due punti
@@ -172,6 +176,8 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
         this.newDiv.style.left =
           firstClick?.left + firstClick?.width / 2 + 'px';
         this.newDiv.style.position = 'fixed';
+        this.newDiv.style.transformOrigin = 'top';
+        this.newDiv.style.transform = `rotate(${inclination}deg)`;
       }
     }
   }
