@@ -29,7 +29,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     { i: 7 },
     { i: 8 },
   ];
-  combinazioneEsatta = [0, 1, 2];
+  combinazioneEsatta = [0, 3, 6, 4, 2];
   combinazioneDigitata: any = [];
   newDiv!: any;
   linesCollection!: any;
