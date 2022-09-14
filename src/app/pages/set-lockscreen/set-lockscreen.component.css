@@ -1,6 +1,6 @@
 .title {
   text-align: center;
-  margin-bottom: 12rem;
+  padding: 2rem;
 }
 
 .dot {
@@ -50,6 +50,14 @@
   z-index: 2;
 }
 
+.lock-container {
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: white;
+}
   /* position: absolute;
   width: 100px;
   height: 10px;

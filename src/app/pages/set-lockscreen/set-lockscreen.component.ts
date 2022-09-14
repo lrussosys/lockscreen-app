@@ -29,11 +29,14 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     { i: 7 },
     { i: 8 },
   ];
-  combinazioneEsatta = [0, 3, 6];
+  combinazioneEsatta = [0, 6, 8];
   combinazioneDigitata: any = [];
   counter = 0;
   newDiv!: any;
   linesCollection!: any;
+  
+  correct: boolean = false;
+
 
   ngOnInit(): void {}
   ngAfterViewInit(): void {
@@ -95,8 +98,8 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     // y = è orizzontale
     // x e y != allora diagonale
 
-    let firstClick = obj[obj.length - 2]
-    let secondClick = obj[obj.length - 1]
+    let firstClick = obj[obj.length - 2];
+    let secondClick = obj[obj.length - 1];
 
     if (obj.length >= 2) {
       // orizzontale
@@ -105,22 +108,18 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
 
         // linea verso destra
         if (secondClick.x > firstClick.x) {
-          this.newDiv.style.width =
-            secondClick?.x - firstClick?.x + 'px';
+          this.newDiv.style.width = secondClick?.x - firstClick?.x + 'px';
           this.newDiv.style.left =
             firstClick?.left + firstClick?.width / 2 + 'px';
           // linea verso sinistra
         } else {
-          this.newDiv.style.width =
-            firstClick?.x - secondClick?.x + 'px';
-          this.newDiv.style.left =
-            secondClick.x + firstClick?.width / 2 + 'px';
+          this.newDiv.style.width = firstClick?.x - secondClick?.x + 'px';
+          this.newDiv.style.left = secondClick.x + firstClick?.width / 2 + 'px';
         }
 
         this.newDiv.style.height = '1px';
         this.newDiv.style.background = 'black';
-        this.newDiv.style.top =
-          firstClick?.top + firstClick?.height / 2 + 'px';
+        this.newDiv.style.top = firstClick?.top + firstClick?.height / 2 + 'px';
         this.newDiv.style.position = 'fixed';
 
         // verticale
@@ -132,16 +131,14 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
           this.newDiv.style.top =
             firstClick?.top + firstClick?.height / 2 + 'px';
 
-          this.newDiv.style.height =
-            secondClick?.y - firstClick?.y + 'px';
+          this.newDiv.style.height = secondClick?.y - firstClick?.y + 'px';
 
           // linea verso alto
         } else {
           this.newDiv.style.top =
             secondClick?.y + firstClick?.height / 2 + 'px';
 
-          this.newDiv.style.height =
-            firstClick?.y - secondClick?.y + 'px';
+          this.newDiv.style.height = firstClick?.y - secondClick?.y + 'px';
         }
 
         this.newDiv.style.width = '1px';
@@ -171,8 +168,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
         this.newDiv.style.width = '1px';
         this.newDiv.style.height = distance + 'px';
         this.newDiv.style.background = 'black';
-        this.newDiv.style.top =
-          firstClick?.top + firstClick?.height / 2 + 'px';
+        this.newDiv.style.top = firstClick?.top + firstClick?.height / 2 + 'px';
         this.newDiv.style.left =
           firstClick?.left + firstClick?.width / 2 + 'px';
         this.newDiv.style.position = 'fixed';
