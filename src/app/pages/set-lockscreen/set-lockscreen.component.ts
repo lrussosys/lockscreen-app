@@ -69,6 +69,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     if (this.combinazioneDigitata.indexOf(dot) === -1) {
       
       this.combinazioneDigitata.push(dot);
+      this.getLineParameters(this.combinazioneDigitata);
     }
     console.log(this.combinazioneDigitata);
 
@@ -89,7 +90,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
 
     console.log(this.combinazioneDigitata);
 
-    this.getLineParameters(this.combinazioneDigitata);
+ 
     // console.log(e.targetTouches)
   }
   // trova le coordinate e le mette dell`oggetto dots
