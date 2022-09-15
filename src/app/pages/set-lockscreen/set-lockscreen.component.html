@@ -12,9 +12,8 @@
     *ngFor="let dot of dots; index as i"
     class="dot"
     #dot
-    (touchmove)="onTouch($event)"
     >
-    <button class="innerDot" (touchmove)="onClick(dot, i, $event)">
+    <button class="innerDot" (touchmove)="onClick(dot, i, $event)" (touchend)="onTouchEnd()">
       {{ dot?.i }}
     </button>
   </div>

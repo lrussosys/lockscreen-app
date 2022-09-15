@@ -56,12 +56,13 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     let x = e.touches[0].clientX;
     let y = e.touches[0].clientY;
 
-    // console.log(document.elementFromPoint(x, y));
+
     if (document.elementFromPoint(x, y)?.classList.contains('innerDot')) {
       let elem:any= document?.elementFromPoint(x, y)?.innerHTML;
       let e = parseInt(elem)
       dot = this.dots[e]
-      // console.log(this.dots[e])
+      dot.selected = true
+  
 
     }
   
@@ -71,28 +72,22 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
       this.combinazioneDigitata.push(dot);
       this.getLineParameters(this.combinazioneDigitata);
     }
-    console.log(this.combinazioneDigitata);
+  
+  }
 
-    if (this.combinazioneEsatta.length == this.combinazioneDigitata.length) {
-      let temp = this.combinazioneEsatta.filter((c, index) => {
-        return this.combinazioneDigitata[index].i == c;
-      });
-      if (temp.length === this.combinazioneEsatta.length) {
-        console.log('trovata');
-        this.correct = true;
-      } else {
-        this.combinazioneSbagliata();
-      }
-    }
-    if (this.combinazioneDigitata.length > this.combinazioneEsatta.length) {
+  //al touchend controlla se è la combinazione esatta o meno
+  onTouchEnd(){
+    let temp = this.combinazioneEsatta.filter((c, index) => {
+      return this.combinazioneDigitata[index]?.i == c;
+    });
+    if (JSON.stringify(temp) === JSON.stringify(this.combinazioneEsatta)) {
+      console.log('trovata');
+      this.correct = true;
+    } else {
       this.combinazioneSbagliata();
     }
-
-    console.log(this.combinazioneDigitata);
-
- 
-    // console.log(e.targetTouches)
   }
+
   // trova le coordinate e le mette dell`oggetto dots
   addCoordinates() {
     this.dot.forEach((HTMLel, i = 0) => {
