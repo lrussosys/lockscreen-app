@@ -46,11 +46,28 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     console.log(this.dots);
   }
 
-  onClick(dot: any, i: any) {
+  onTouch(ev: any) {
+    console.log(ev.touches);
+  }
+
+  onClick(dot: any, i: any, e: any) {
     dot.selected = true;
 
+    let x = e.touches[0].clientX;
+    let y = e.touches[0].clientY;
+
+    // console.log(document.elementFromPoint(x, y));
+    if (document.elementFromPoint(x, y)?.classList.contains('innerDot')) {
+      let elem:any= document?.elementFromPoint(x, y)?.innerHTML;
+      let e = parseInt(elem)
+      dot = this.dots[e]
+      // console.log(this.dots[e])
+
+    }
+  
     // controllo se il valore inserito é giá presente nell`array digitato
     if (this.combinazioneDigitata.indexOf(dot) === -1) {
+      
       this.combinazioneDigitata.push(dot);
     }
     console.log(this.combinazioneDigitata);
@@ -73,6 +90,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     console.log(this.combinazioneDigitata);
 
     this.getLineParameters(this.combinazioneDigitata);
+    // console.log(e.targetTouches)
   }
   // trova le coordinate e le mette dell`oggetto dots
   addCoordinates() {
