@@ -36,6 +36,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
   currentValue: any;
 
   correct: boolean = false;
+  wrong:boolean = false;
 
   ngOnInit(): void {}
 
@@ -83,8 +84,16 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     if (JSON.stringify(temp) === JSON.stringify(this.combinazioneEsatta)) {
       console.log('trovata');
       this.correct = true;
+      this.removeLines()
+      this.dots.forEach((d:any) => {
+        d.selected = false
+      });
     } else {
       this.combinazioneSbagliata();
+      this.wrong = true
+      setTimeout(()=>{
+        this.wrong = false
+      }, 2000)
     }
   }
 
@@ -200,7 +209,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     });
     this.combinazioneDigitata = [];
     this.correct = false;
-    alert('riprova');
+    // alert('riprova');
   }
 
   lineaVersoDestra(secondClick: any, firstClick: any) {

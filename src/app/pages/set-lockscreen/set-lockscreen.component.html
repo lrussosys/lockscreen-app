@@ -1,7 +1,8 @@
 <h2 class="title">Set Lock Pattern</h2>
 
 <div class="lock-container">
-  <i class="fa-solid fa-lock" *ngIf="!correct"></i>
+  <i class="fa-solid fa-lock lock" *ngIf="!correct" [ngClass]="wrong ? 'shake': ''"></i>
+  <div [ngClass]="!correct && wrong ? 'show':'hidden'">Riprova</div>
   <i class="fa-solid fa-lock-open" *ngIf="correct"></i>
 </div>
 
