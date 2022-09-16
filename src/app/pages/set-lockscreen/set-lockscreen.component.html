@@ -1,8 +1,4 @@
 <div class="lock-container">
-  <!-- <i class="fa-solid fa-lock lock" *ngIf="!correct" [ngClass]="wrong ? 'shake': ''"></i>
-  <i class="fa-solid fa-lock-open lock" *ngIf="correct"></i>
-  <div [ngClass]="!correct && wrong ? 'show':'hidden'" class="wrong">Riprova</div>
-  <div  [ngClass]="correct ? 'show':'hidden'" >Corretta</div> -->
   <div [ngClass]="!patternSet ? 'show' : 'hidden'" class="wrong">
     Traccia una sequenza di sblocco
   </div>
@@ -28,6 +24,3 @@
     </button>
   </div>
 </div>
-<!-- (touchstart)="onClick($event, 'start')"
-(touchmove)="onClick($event, 'move')"
-(touchend)="onClick($event, 'end')" -->

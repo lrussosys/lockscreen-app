@@ -1,15 +1,14 @@
 <div class="gear">
-    <i routerLink="/home" class="fa-solid fa-gear"></i>
+  <i routerLink="/home" class="fa-solid fa-gear"></i>
 </div>
 
 <div class="lock-container">
-
   <i
     class="fa-solid fa-lock lock"
     *ngIf="!correct"
     [ngClass]="wrong ? 'shake' : ''"
   ></i>
-  
+
   <i class="fa-solid fa-lock-open lock" *ngIf="correct"></i>
   <div [ngClass]="!correct && wrong ? 'show' : 'hidden'" class="wrong">
     Riprova
@@ -18,7 +17,6 @@
 </div>
 
 <div class="dots-wrapper" id="line">
-  <!-- <div class="line"></div> -->
   <div
     [ngClass]="dot.selected ? 'selected' : ''"
     *ngFor="let dot of dots; index as i"
@@ -34,6 +32,3 @@
     </button>
   </div>
 </div>
-<!-- (touchstart)="onClick($event, 'start')"
-  (touchmove)="onClick($event, 'move')"
-  (touchend)="onClick($event, 'end')" -->

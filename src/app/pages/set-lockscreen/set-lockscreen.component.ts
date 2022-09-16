@@ -50,8 +50,6 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     }, 1);
   }
 
-  onTouch(ev: any) {}
-
   onClick(dot: any, i: any, e: any) {
     dot.selected = true;
 
@@ -74,38 +72,12 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
 
   //al touchend controlla se è la combinazione esatta o meno
   onTouchEnd() {
-    // let temp = this.combinazioneEsatta.filter((c, index) => {
-    //   return this.combinazioneDigitata[index]?.i == c;
-    // });
-
-    // if (JSON.stringify(temp) === JSON.stringify(this.combinazioneEsatta)) {
-    //   this.combinazioneDigitata = [];
-    //   this.correct = true;
-    //   setTimeout(() => {
-    //     this.correct = false;
-    //   }, 2000);
-    //   this.removeLines();
-    //   this.dots.forEach((d: any) => {
-    //     d.selected = false;
-    //   });
-    // } else {
-    //   this.combinazioneSbagliata();
-    //   this.wrong = true;
-    //   setTimeout(() => {
-    //     this.wrong = false;
-    //   }, 2000);
-    // }
-
-    // let tempFilter = this.combinazioneDigitata.filter((d: any) => d.i);
-
     let tempArray: any = [];
     this.combinazioneDigitata.forEach((d: any) => {
       tempArray.push(d.i);
     });
-    console.log(tempArray);
 
     this.patternService.combinazioneCorretta = tempArray;
-    console.log('service', this.patternService.combinazioneCorretta);
 
     this.patternSet = true;
 
@@ -186,9 +158,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
         this.createLine();
 
         // calcolo distanza tra due punti
-        let tempx = secondClick.x - firstClick.x;
-        let tempy = secondClick.y - firstClick.y;
-        let distance = Math.sqrt(tempx * tempx + tempy * tempy);
+        let distance = this.distanzaTraDuePunti(secondClick, firstClick);
 
         this.newDiv.style.transition = this.transitionTiming;
         this.newDiv.style.width = '4px';
@@ -198,13 +168,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
           this.newDiv.style.height = distance + 'px';
         }, 1);
 
-        this.newDiv.style.background = 'rgba(255, 255, 255, 0.493)';
-        this.newDiv.style.top = firstClick?.top + firstClick?.height / 2 + 'px';
-        this.newDiv.style.left =
-          firstClick?.left + firstClick?.width / 2 + 'px';
-        this.newDiv.style.position = 'fixed';
-        this.newDiv.style.transformOrigin = 'top';
-        this.newDiv.style.transform = `rotate(${inclination}deg)`;
+        this.stileDiagonale(firstClick, inclination);
       }
     }
   }
@@ -300,5 +264,18 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.newDiv.style.height = firstClick?.y - secondClick?.y + 'px';
     }, 1);
+  }
+  distanzaTraDuePunti(secondClick: any, firstClick: any) {
+    let tempX = secondClick.x - firstClick.x;
+    let tempY = secondClick.y - firstClick.y;
+    return Math.sqrt(Math.pow(tempX, 2) + Math.pow(tempY, 2));
+  }
+  stileDiagonale(firstClick: any, inclination: any) {
+    this.newDiv.style.background = 'rgba(255, 255, 255, 0.493)';
+    this.newDiv.style.top = firstClick?.top + firstClick?.height / 2 + 'px';
+    this.newDiv.style.left = firstClick?.left + firstClick?.width / 2 + 'px';
+    this.newDiv.style.position = 'fixed';
+    this.newDiv.style.transformOrigin = 'top';
+    this.newDiv.style.transform = `rotate(${inclination}deg)`;
   }
 }
