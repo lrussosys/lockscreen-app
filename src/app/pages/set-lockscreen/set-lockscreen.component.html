@@ -1,8 +1,8 @@
 <div class="lock-container">
-  <div [ngClass]="!patternSet ? 'show' : 'hidden'" class="wrong">
+  <div [ngClass]="!patternService.patternSet ? 'show' : 'hidden'" class="wrong">
     Traccia una sequenza di sblocco
   </div>
-  <div [ngClass]="patternSet ? 'show' : 'hidden'">
+  <div [ngClass]="patternService.patternSet ? 'show' : 'hidden'">
     Sequenza salvata con successo
   </div>
 </div>

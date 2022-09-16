@@ -5,15 +5,20 @@
 <div class="lock-container">
   <i
     class="fa-solid fa-lock lock"
-    *ngIf="!correct"
-    [ngClass]="wrong ? 'shake' : ''"
+    *ngIf="!patternService.correct"
+    [ngClass]="patternService.wrong ? 'shake' : ''"
   ></i>
 
-  <i class="fa-solid fa-lock-open lock" *ngIf="correct"></i>
-  <div [ngClass]="!correct && wrong ? 'show' : 'hidden'" class="wrong">
+  <i class="fa-solid fa-lock-open lock" *ngIf="patternService.correct"></i>
+  <div
+    [ngClass]="
+      !patternService.correct && patternService.wrong ? 'show' : 'hidden'
+    "
+    class="wrong"
+  >
     Riprova
   </div>
-  <div [ngClass]="correct ? 'show' : 'hidden'">Corretta</div>
+  <div [ngClass]="patternService.correct ? 'show' : 'hidden'">Corretta</div>
 </div>
 
 <div class="dots-wrapper" id="line">

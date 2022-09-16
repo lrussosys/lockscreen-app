@@ -17,7 +17,7 @@ import { PatternService } from 'src/app/services/pattern.service';
 export class SetLockscreenComponent implements OnInit, AfterViewInit {
   @ViewChildren('dot') dot!: QueryList<ElementRef>;
 
-  constructor(private patternService: PatternService, private router: Router) {}
+  constructor(public patternService: PatternService, private router: Router) {}
 
   dots: any = [
     { i: 0 },
@@ -40,9 +40,10 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
   wrong: boolean = false;
 
   transitionTiming = 'all 0.1s linear';
-  patternSet = false;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.patternService.patternSet = false;
+  }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -79,7 +80,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
 
     this.patternService.combinazioneCorretta = tempArray;
 
-    this.patternSet = true;
+    this.patternService.patternSet = true;
 
     setTimeout(() => {
       this.router.navigate(['lockscreen']);
@@ -118,28 +119,28 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     if (obj.length >= 2) {
       // orizzontale
       if (secondClick.y == firstClick.y) {
-        this.createLine();
+        this.patternService.createLine();
 
         if (secondClick.x > firstClick.x) {
           // fa la linea verso destra
-          this.lineaVersoDestra(secondClick, firstClick);
+          this.patternService.lineaVersoDestra(secondClick, firstClick);
         } else {
           // fa la linea verso sinistra
-          this.lineaVersoSinistra(secondClick, firstClick);
+          this.patternService.lineaVersoSinistra(secondClick, firstClick);
         }
-        this.stileLineaOrizontale(firstClick);
+        this.patternService.stileLineaOrizontale(firstClick);
 
         // verticale
       } else if (secondClick.x == firstClick.x) {
-        this.createLine();
+        this.patternService.createLine();
 
         // linea verso basso
         if (secondClick.y > firstClick.y) {
-          this.lineaVersoBasso(secondClick, firstClick);
+          this.patternService.lineaVersoBasso(secondClick, firstClick);
 
           // linea verso alto
         } else {
-          this.lineaVersoAlto(secondClick, firstClick);
+          this.patternService.lineaVersoAlto(secondClick, firstClick);
         }
 
         // diagonale
@@ -155,127 +156,24 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
           x > 0
             ? -Math.abs((Math.atan2(x, y) * 180) / Math.PI)
             : Math.abs((Math.atan2(x, y) * 180) / Math.PI);
-        this.createLine();
+        this.patternService.createLine();
 
         // calcolo distanza tra due punti
-        let distance = this.distanzaTraDuePunti(secondClick, firstClick);
+        let distance = this.patternService.distanzaTraDuePunti(
+          secondClick,
+          firstClick
+        );
 
-        this.newDiv.style.transition = this.transitionTiming;
-        this.newDiv.style.width = '4px';
-        this.newDiv.style.height = '0px';
+        this.patternService.newDiv.style.transition = this.transitionTiming;
+        this.patternService.newDiv.style.width = '4px';
+        this.patternService.newDiv.style.height = '0px';
 
         setTimeout(() => {
-          this.newDiv.style.height = distance + 'px';
+          this.patternService.newDiv.style.height = distance + 'px';
         }, 1);
 
-        this.stileDiagonale(firstClick, inclination);
+        this.patternService.stileDiagonale(firstClick, inclination);
       }
     }
-  }
-
-  createLine() {
-    let parent: any = document.getElementById('line');
-    this.newDiv = document.createElement('div');
-    this.newDiv.classList.add('line-elem');
-    parent.appendChild(this.newDiv);
-  }
-
-  removeLines() {
-    this.linesCollection = document.getElementsByClassName('line-elem');
-
-    for (let i = this.linesCollection.length - 1; i >= 0; --i) {
-      this.linesCollection[i].remove();
-    }
-  }
-  combinazioneSbagliata() {
-    this.removeLines();
-    this.combinazioneDigitata.forEach((el: any) => {
-      el.selected = false;
-    });
-    this.combinazioneDigitata = [];
-    this.correct = false;
-    // alert('riprova');
-  }
-
-  lineaVersoDestra(secondClick: any, firstClick: any) {
-    this.newDiv.style.left = firstClick?.left + firstClick?.width / 2 + 'px';
-
-    this.newDiv.style.transition = this.transitionTiming;
-    this.newDiv.style.width = '0px';
-    this.newDiv.style.height = '4px';
-
-    setTimeout(() => {
-      this.newDiv.style.width = secondClick?.x - firstClick?.x + 'px';
-    }, 1);
-  }
-
-  lineaVersoSinistra(secondClick: any, firstClick: any) {
-    this.newDiv.style.left = firstClick?.left + secondClick?.width / 2 + 'px';
-
-    this.newDiv.style.transform = 'translate(-100%, 0)';
-    this.newDiv.style.transition = this.transitionTiming;
-    this.newDiv.style.width = '0px';
-    this.newDiv.style.height = '4px';
-
-    setTimeout(() => {
-      this.newDiv.style.width = firstClick?.x - secondClick?.x + 'px';
-      this.newDiv.style.transform = 'translate(-100%, 0)';
-    }, 1);
-  }
-
-  stileLineaOrizontale(firstClick: any) {
-    this.newDiv.style.height = '4px';
-    this.newDiv.style.background = 'rgba(255, 255, 255, 0.493)';
-    this.newDiv.style.top = firstClick?.top + firstClick?.height / 2 + 'px';
-    this.newDiv.style.position = 'fixed';
-  }
-  lineaVersoBasso(secondClick: any, firstClick: any) {
-    this.newDiv.style.transition = this.transitionTiming;
-
-    this.newDiv.style.top = firstClick?.top + firstClick?.height / 2 + 'px';
-    this.newDiv.style.height = 0;
-    this.newDiv.style.width = '4px';
-
-    this.newDiv.style.background = 'rgba(255, 255, 255, 0.493)';
-    this.newDiv.style.left = firstClick?.left + firstClick?.width / 2 + 'px';
-    this.newDiv.style.position = 'fixed';
-
-    setTimeout(() => {
-      this.newDiv.style.height = secondClick?.y - firstClick?.y + 'px';
-      // this.newDiv.style.transform = 'translate(-100%, 0)';
-    }, 1);
-  }
-  lineaVersoAlto(secondClick: any, firstClick: any) {
-    this.newDiv.style.transform = 'translate(0, -100%)';
-
-    this.newDiv.style.transition = this.transitionTiming;
-
-    this.newDiv.style.top = firstClick?.y + firstClick?.height / 2 + 'px';
-
-    this.newDiv.style.height = 0;
-
-    this.newDiv.style.width = '4px';
-
-    this.newDiv.style.background = 'rgba(255, 255, 255, 0.493)';
-
-    this.newDiv.style.left = firstClick?.left + firstClick?.width / 2 + 'px';
-    this.newDiv.style.position = 'fixed';
-
-    setTimeout(() => {
-      this.newDiv.style.height = firstClick?.y - secondClick?.y + 'px';
-    }, 1);
-  }
-  distanzaTraDuePunti(secondClick: any, firstClick: any) {
-    let tempX = secondClick.x - firstClick.x;
-    let tempY = secondClick.y - firstClick.y;
-    return Math.sqrt(Math.pow(tempX, 2) + Math.pow(tempY, 2));
-  }
-  stileDiagonale(firstClick: any, inclination: any) {
-    this.newDiv.style.background = 'rgba(255, 255, 255, 0.493)';
-    this.newDiv.style.top = firstClick?.top + firstClick?.height / 2 + 'px';
-    this.newDiv.style.left = firstClick?.left + firstClick?.width / 2 + 'px';
-    this.newDiv.style.position = 'fixed';
-    this.newDiv.style.transformOrigin = 'top';
-    this.newDiv.style.transform = `rotate(${inclination}deg)`;
   }
 }
