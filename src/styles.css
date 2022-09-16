@@ -4,7 +4,11 @@
   margin: 0;
   box-sizing: border-box;
   font-family: sans-serif;
+  text-shadow: 0 0 6px rgb(0 0 0 / 62%);
+}
 
+.innerDot {
+    box-shadow: rgb(0 0 0 / 31%) 2px 8px 20px 0px;
 }
 
 html,
@@ -16,11 +20,23 @@ body {
   /* background-color: pink; */
   background: hsla(333, 100%, 53%, 1);
 
-  background: linear-gradient(90deg, hsla(333, 100%, 53%, 1) 0%, hsla(33, 94%, 57%, 1) 100%);
+  background: linear-gradient(
+    90deg,
+    hsla(333, 100%, 53%, 1) 0%,
+    hsla(33, 94%, 57%, 1) 100%
+  );
 
-  background: -moz-linear-gradient(90deg, hsla(333, 100%, 53%, 1) 0%, hsla(33, 94%, 57%, 1) 100%);
+  background: -moz-linear-gradient(
+    90deg,
+    hsla(333, 100%, 53%, 1) 0%,
+    hsla(33, 94%, 57%, 1) 100%
+  );
 
-  background: -webkit-linear-gradient(90deg, hsla(333, 100%, 53%, 1) 0%, hsla(33, 94%, 57%, 1) 100%);
+  background: -webkit-linear-gradient(
+    90deg,
+    hsla(333, 100%, 53%, 1) 0%,
+    hsla(33, 94%, 57%, 1) 100%
+  );
 
   filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#ff0f7b", endColorstr="#f89b29", GradientType=1);
 

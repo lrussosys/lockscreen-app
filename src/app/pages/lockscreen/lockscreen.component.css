@@ -89,7 +89,6 @@
     padding: 1rem;
     font-size: 1.5rem;
     color: white;
-    text-shadow: 0 0 6px rgb(0 0 0 / 62%);
 }
 
 @keyframes shake {
