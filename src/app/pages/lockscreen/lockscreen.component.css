@@ -1,117 +1,142 @@
 .title {
-    text-align: center;
-    padding: 2rem;
-  }
-  
-  .dot {
-    background-color: rgba(255, 255, 255, 0);
-    border-radius: 50%;
-    text-align: center;
-    width: 55px;
-    height: 55px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid transparent;
-  }
-  .dotRow {
+  text-align: center;
+  padding: 2rem;
+}
+
+.dot {
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  text-align: center;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+}
+.dotRow {
+  padding: 1rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dot.selected {
+  border: 1px solid white;
+  background-color: rgba(255, 255, 255, 0.308);
+}
+
+.dots-wrapper {
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  height: 60%;
+}
+.innerDot {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  text-indent: -9999px;
+}
+
+.lock-container {
+  padding: 2.5rem 0rem 1rem 0rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  color: white;
+  flex-direction: column;
+  position: relative;
+}
+
+.shake {
+  animation: shake 0.5s;
+  animation-iteration-count: 1;
+}
+.hidden {
+  opacity: 0;
+  transition: all 0.4s linear;
+  pointer-events: none;
+}
+.show {
+  opacity: 1;
+  transition: all 0.4s linear;
+}
+
+.lock {
+  padding-bottom: 1rem;
+}
+
+.wrong {
+  position: absolute;
+  bottom: 10%;
+}
+
+.gear {
+    text-align: right;
     padding: 1rem;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .dot.selected {
-    border: 1px solid white;
-    background-color: rgba(255, 255, 255, 0.308);
-  }
-  
-  .dots-wrapper {
-    display: grid;
-    gap: 1px;
-    grid-template-columns: repeat(3, 1fr);
-    align-items: center;
-    justify-content: center;
-    justify-items: center;
-    height: 60%;
-  }
-  .innerDot {
-    width: 30px;
-    height: 30px;
-    border: none;
-    background-color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-    text-indent: -9999px;
-  
-  }
-  
-  .lock-container {
-    padding: 5rem 0rem 1rem 0rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
+    font-size: 1.5rem;
     color: white;
-    flex-direction: column;
-    position: relative;
+    text-shadow: 0 0 6px rgb(0 0 0 / 62%);
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
   }
-  
-  .shake{
-    animation: shake 0.5s;
-    animation-iteration-count:1 
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
   }
-  .hidden{
-   opacity: 0;
-   transition: all 0.4s linear;
-   pointer-events: none;
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
   }
-  .show{
-   opacity: 1;
-   transition: all 0.4s linear;
-  
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
   }
-  
-  .lock{
-    padding-bottom: 1rem; 
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
   }
-  
-  .wrong{
-    position: absolute;
-    bottom: 10%;
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
   }
-  
-  
-  @keyframes shake {
-    0% { transform: translate(1px, 1px) rotate(0deg); }
-    10% { transform: translate(-1px, -2px) rotate(-1deg); }
-    20% { transform: translate(-3px, 0px) rotate(1deg); }
-    30% { transform: translate(3px, 2px) rotate(0deg); }
-    40% { transform: translate(1px, -1px) rotate(1deg); }
-    50% { transform: translate(-1px, 2px) rotate(-1deg); }
-    60% { transform: translate(-3px, 1px) rotate(0deg); }
-    70% { transform: translate(3px, 1px) rotate(-1deg); }
-    80% { transform: translate(-1px, -1px) rotate(1deg); }
-    90% { transform: translate(1px, 2px) rotate(0deg); }
-    100% { transform: translate(1px, -2px) rotate(-1deg); }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
   }
-  
-  
-  /* position: absolute;
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+
+/* position: absolute;
     width: 100px;
     height: 10px;
     top: 42%;
     left: 20%;
     background-color: rgba(0, 0, 0, 0); */
-  /* width: calc((162.484375px) - (37.15625px));
+/* width: calc((162.484375px) - (37.15625px));
     background-color: black;
     height: 1px;
     top: calc(261.359375px + 25px);
     left: calc(37.15625px + 25px);
     position: fixed */
-  

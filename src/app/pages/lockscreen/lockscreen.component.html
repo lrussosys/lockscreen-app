@@ -1,4 +1,7 @@
-<i routerLink="/set-lockscreen" class="fa-solid fa-gear"></i>
+<div class="gear">
+    <i routerLink="/home" class="fa-solid fa-gear"></i>
+</div>
+
 <div class="lock-container">
 
   <i
@@ -6,6 +9,7 @@
     *ngIf="!correct"
     [ngClass]="wrong ? 'shake' : ''"
   ></i>
+  
   <i class="fa-solid fa-lock-open lock" *ngIf="correct"></i>
   <div [ngClass]="!correct && wrong ? 'show' : 'hidden'" class="wrong">
     Riprova

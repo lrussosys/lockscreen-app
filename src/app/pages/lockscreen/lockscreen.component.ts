@@ -1,4 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Router } from '@angular/router';
+import { PatternService } from 'src/app/services/pattern.service';
 
 @Component({
   selector: 'app-lockscreen',
@@ -8,7 +10,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChildren }
 export class LockscreenComponent implements AfterViewInit {
     @ViewChildren('dot') dot!: QueryList<ElementRef>;
   
-    constructor() {}
+    constructor(private patternService: PatternService, private router: Router) {}
   
     dots: any = [
       { i: 0 },
@@ -21,7 +23,7 @@ export class LockscreenComponent implements AfterViewInit {
       { i: 7 },
       { i: 8 },
     ];
-    combinazioneEsatta = [0, 3, 6, 4, 2];
+    combinazioneEsatta = this.patternService.combinazioneCorretta;
     combinazioneDigitata: any = [];
     newDiv!: any;
     linesCollection!: any;
@@ -32,7 +34,11 @@ export class LockscreenComponent implements AfterViewInit {
   
     transitionTiming = 'all 0.1s linear'
   
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        if(this.patternService.combinazioneCorretta == undefined) {
+            this.router.navigate(['/home'])
+        }
+    }
   
     ngAfterViewInit(): void {
       setTimeout(() => {
@@ -64,7 +70,7 @@ export class LockscreenComponent implements AfterViewInit {
   
     //al touchend controlla se è la combinazione esatta o meno
     onTouchEnd() {
-      let temp = this.combinazioneEsatta.filter((c, index) => {
+      let temp = this.combinazioneEsatta.filter((c: any, index: any) => {
         return this.combinazioneDigitata[index]?.i == c;
       });
   

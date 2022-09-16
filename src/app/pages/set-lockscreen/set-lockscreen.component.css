@@ -60,6 +60,7 @@
   color: white;
   flex-direction: column;
   position: relative;
+  text-align: center;
 }
 
 .shake{

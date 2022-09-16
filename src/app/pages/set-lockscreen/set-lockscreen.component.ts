@@ -6,6 +6,8 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
+import { Router } from '@angular/router';
+import { PatternService } from 'src/app/services/pattern.service';
 
 @Component({
   selector: 'app-set-lockscreen',
@@ -15,7 +17,7 @@ import {
 export class SetLockscreenComponent implements OnInit, AfterViewInit {
   @ViewChildren('dot') dot!: QueryList<ElementRef>;
 
-  constructor() {}
+  constructor(private patternService: PatternService, private router: Router) {}
 
   dots: any = [
     { i: 0 },
@@ -28,7 +30,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     { i: 7 },
     { i: 8 },
   ];
-  combinazioneEsatta = [0, 3, 6, 4, 2];
+  combinazioneEsatta = [];
   combinazioneDigitata: any = [];
   newDiv!: any;
   linesCollection!: any;
@@ -37,7 +39,8 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
   correct: boolean = false;
   wrong: boolean = false;
 
-  transitionTiming = 'all 0.1s linear'
+  transitionTiming = 'all 0.1s linear';
+  patternSet = false;
 
   ngOnInit(): void {}
 
@@ -71,27 +74,44 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
 
   //al touchend controlla se è la combinazione esatta o meno
   onTouchEnd() {
-    let temp = this.combinazioneEsatta.filter((c, index) => {
-      return this.combinazioneDigitata[index]?.i == c;
-    });
+    // let temp = this.combinazioneEsatta.filter((c, index) => {
+    //   return this.combinazioneDigitata[index]?.i == c;
+    // });
 
-    if (JSON.stringify(temp) === JSON.stringify(this.combinazioneEsatta)) {
-      this.combinazioneDigitata = [];
-      this.correct = true;
-      setTimeout(() => {
-        this.correct = false;
-      }, 2000);
-      this.removeLines();
-      this.dots.forEach((d: any) => {
-        d.selected = false;
-      });
-    } else {
-      this.combinazioneSbagliata();
-      this.wrong = true;
-      setTimeout(() => {
-        this.wrong = false;
-      }, 2000);
-    }
+    // if (JSON.stringify(temp) === JSON.stringify(this.combinazioneEsatta)) {
+    //   this.combinazioneDigitata = [];
+    //   this.correct = true;
+    //   setTimeout(() => {
+    //     this.correct = false;
+    //   }, 2000);
+    //   this.removeLines();
+    //   this.dots.forEach((d: any) => {
+    //     d.selected = false;
+    //   });
+    // } else {
+    //   this.combinazioneSbagliata();
+    //   this.wrong = true;
+    //   setTimeout(() => {
+    //     this.wrong = false;
+    //   }, 2000);
+    // }
+
+    // let tempFilter = this.combinazioneDigitata.filter((d: any) => d.i);
+
+    let tempArray: any = [];
+    this.combinazioneDigitata.forEach((d: any) => {
+      tempArray.push(d.i);
+    });
+    console.log(tempArray);
+
+    this.patternService.combinazioneCorretta = tempArray;
+    console.log('service', this.patternService.combinazioneCorretta);
+
+    this.patternSet = true;
+
+    setTimeout(() => {
+      this.router.navigate(['lockscreen']);
+    }, 2000);
   }
 
   // trova le coordinate e le mette dell`oggetto dots
@@ -234,9 +254,8 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     this.newDiv.style.height = '4px';
 
     setTimeout(() => {
-        
-        this.newDiv.style.width = firstClick?.x - secondClick?.x + 'px';
-        this.newDiv.style.transform = 'translate(-100%, 0)';
+      this.newDiv.style.width = firstClick?.x - secondClick?.x + 'px';
+      this.newDiv.style.transform = 'translate(-100%, 0)';
     }, 1);
   }
 
@@ -247,7 +266,6 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     this.newDiv.style.position = 'fixed';
   }
   lineaVersoBasso(secondClick: any, firstClick: any) {
-
     this.newDiv.style.transition = this.transitionTiming;
 
     this.newDiv.style.top = firstClick?.top + firstClick?.height / 2 + 'px';
@@ -258,17 +276,12 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     this.newDiv.style.left = firstClick?.left + firstClick?.width / 2 + 'px';
     this.newDiv.style.position = 'fixed';
 
-
     setTimeout(() => {
-        
-        this.newDiv.style.height = secondClick?.y - firstClick?.y + 'px';
-        // this.newDiv.style.transform = 'translate(-100%, 0)';
+      this.newDiv.style.height = secondClick?.y - firstClick?.y + 'px';
+      // this.newDiv.style.transform = 'translate(-100%, 0)';
     }, 1);
-
-
   }
   lineaVersoAlto(secondClick: any, firstClick: any) {
-
     this.newDiv.style.transform = 'translate(0, -100%)';
 
     this.newDiv.style.transition = this.transitionTiming;
@@ -285,8 +298,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     this.newDiv.style.position = 'fixed';
 
     setTimeout(() => {
-        
-        this.newDiv.style.height = firstClick?.y - secondClick?.y + 'px';
+      this.newDiv.style.height = firstClick?.y - secondClick?.y + 'px';
     }, 1);
   }
 }
