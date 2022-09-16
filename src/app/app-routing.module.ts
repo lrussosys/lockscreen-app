@@ -4,8 +4,9 @@ import { LockscreenComponent } from './pages/lockscreen/lockscreen.component';
 import { SetLockscreenComponent } from './pages/set-lockscreen/set-lockscreen.component';
 
 const routes: Routes = [
-  { path: '', component: SetLockscreenComponent },
-  { path: 'lockscreen', component: SetLockscreenComponent },
+  { path: '', component: LockscreenComponent },
+  { path: 'home', component: LockscreenComponent },
+  { path: 'set-lockscreen', component: SetLockscreenComponent },
 ];
 
 @NgModule({
