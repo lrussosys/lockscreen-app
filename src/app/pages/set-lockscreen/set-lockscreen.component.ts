@@ -38,6 +38,8 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
   correct: boolean = false;
   wrong: boolean = false;
 
+  transitionTiming = 'all 0.1s linear'
+
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
@@ -142,11 +144,11 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
 
         // linea verso basso
         if (secondClick.y > firstClick.y) {
-          this.lineaVersoGiú(secondClick, firstClick);
+          this.lineaVersoBasso(secondClick, firstClick);
 
           // linea verso alto
         } else {
-          this.lineaVersoSú(secondClick, firstClick);
+          this.lineaVersoAlto(secondClick, firstClick);
         }
 
         // diagonale
@@ -169,7 +171,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
         let tempy = secondClick.y - firstClick.y;
         let distance = Math.sqrt(tempx * tempx + tempy * tempy);
 
-        this.newDiv.style.transition = 'all 0.3s linear';
+        this.newDiv.style.transition = this.transitionTiming;
         this.newDiv.style.width = '4px';
         this.newDiv.style.height = '0px';
 
@@ -215,7 +217,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
   lineaVersoDestra(secondClick: any, firstClick: any) {
     this.newDiv.style.left = firstClick?.left + firstClick?.width / 2 + 'px';
 
-    this.newDiv.style.transition = 'all 0.3s linear';
+    this.newDiv.style.transition = this.transitionTiming;
     this.newDiv.style.width = '0px';
     this.newDiv.style.height = '4px';
 
@@ -228,7 +230,7 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     this.newDiv.style.left = firstClick?.left + secondClick?.width / 2 + 'px';
 
     this.newDiv.style.transform = 'translate(-100%, 0)';
-    this.newDiv.style.transition = 'all 300ms linear';
+    this.newDiv.style.transition = this.transitionTiming;
     this.newDiv.style.width = '0px';
     this.newDiv.style.height = '4px';
 
@@ -245,19 +247,36 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     this.newDiv.style.top = firstClick?.top + firstClick?.height / 2 + 'px';
     this.newDiv.style.position = 'fixed';
   }
-  lineaVersoGiú(secondClick: any, firstClick: any) {
+  lineaVersoBasso(secondClick: any, firstClick: any) {
+
+    this.newDiv.style.transition = this.transitionTiming;
+
     this.newDiv.style.top = firstClick?.top + firstClick?.height / 2 + 'px';
-    this.newDiv.style.height = secondClick?.y - firstClick?.y + 'px';
+    this.newDiv.style.height = 0;
     this.newDiv.style.width = '4px';
 
     this.newDiv.style.background = 'rgba(255, 255, 255, 0.493)';
     this.newDiv.style.left = firstClick?.left + firstClick?.width / 2 + 'px';
     this.newDiv.style.position = 'fixed';
+
+
+    setTimeout(() => {
+        
+        this.newDiv.style.height = secondClick?.y - firstClick?.y + 'px';
+        // this.newDiv.style.transform = 'translate(-100%, 0)';
+    }, 1);
+
+
   }
-  lineaVersoSú(secondClick: any, firstClick: any) {
-    this.newDiv.style.top = secondClick?.y + firstClick?.height / 2 + 'px';
+  lineaVersoAlto(secondClick: any, firstClick: any) {
 
-    this.newDiv.style.height = firstClick?.y - secondClick?.y + 'px';
+    this.newDiv.style.transform = 'translate(0, -100%)';
+
+    this.newDiv.style.transition = this.transitionTiming;
+
+    this.newDiv.style.top = firstClick?.y + firstClick?.height / 2 + 'px';
+
+    this.newDiv.style.height = 0;
 
     this.newDiv.style.width = '4px';
 
@@ -265,5 +284,10 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
 
     this.newDiv.style.left = firstClick?.left + firstClick?.width / 2 + 'px';
     this.newDiv.style.position = 'fixed';
+
+    setTimeout(() => {
+        
+        this.newDiv.style.height = firstClick?.y - secondClick?.y + 'px';
+    }, 1);
   }
 }
