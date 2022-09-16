@@ -44,12 +44,9 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.addCoordinates();
     }, 1);
-
   }
 
-  onTouch(ev: any) {
-
-  }
+  onTouch(ev: any) {}
 
   onClick(dot: any, i: any, e: any) {
     dot.selected = true;
@@ -76,10 +73,9 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
     let temp = this.combinazioneEsatta.filter((c, index) => {
       return this.combinazioneDigitata[index]?.i == c;
     });
-    
-    if (JSON.stringify(temp) === JSON.stringify(this.combinazioneEsatta)) {
 
-      this.combinazioneDigitata = []
+    if (JSON.stringify(temp) === JSON.stringify(this.combinazioneEsatta)) {
+      this.combinazioneDigitata = [];
       this.correct = true;
       setTimeout(() => {
         this.correct = false;
@@ -119,7 +115,6 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
   }
 
   getLineParameters(obj: any) {
-
     // se le x sono uguali la linea è verticale
     // se le y sono uguali la linea è orizzontale
     // se le x e le y sono diverse allora la linea é diagonale
@@ -174,8 +169,14 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
         let tempy = secondClick.y - firstClick.y;
         let distance = Math.sqrt(tempx * tempx + tempy * tempy);
 
+        this.newDiv.style.transition = 'all 0.3s linear';
         this.newDiv.style.width = '4px';
-        this.newDiv.style.height = distance + 'px';
+        this.newDiv.style.height = '0px';
+
+        setTimeout(() => {
+          this.newDiv.style.height = distance + 'px';
+        }, 1);
+
         this.newDiv.style.background = 'rgba(255, 255, 255, 0.493)';
         this.newDiv.style.top = firstClick?.top + firstClick?.height / 2 + 'px';
         this.newDiv.style.left =
@@ -212,12 +213,30 @@ export class SetLockscreenComponent implements OnInit, AfterViewInit {
   }
 
   lineaVersoDestra(secondClick: any, firstClick: any) {
-    this.newDiv.style.width = secondClick?.x - firstClick?.x + 'px';
     this.newDiv.style.left = firstClick?.left + firstClick?.width / 2 + 'px';
+
+    this.newDiv.style.transition = 'all 0.3s linear';
+    this.newDiv.style.width = '0px';
+    this.newDiv.style.height = '4px';
+
+    setTimeout(() => {
+      this.newDiv.style.width = secondClick?.x - firstClick?.x + 'px';
+    }, 1);
   }
+
   lineaVersoSinistra(secondClick: any, firstClick: any) {
-    this.newDiv.style.width = firstClick?.x - secondClick?.x + 'px';
-    this.newDiv.style.left = secondClick.x + firstClick?.width / 2 + 'px';
+    this.newDiv.style.left = firstClick?.left + secondClick?.width / 2 + 'px';
+
+    this.newDiv.style.transform = 'translate(-100%, 0)';
+    this.newDiv.style.transition = 'all 300ms linear';
+    this.newDiv.style.width = '0px';
+    this.newDiv.style.height = '4px';
+
+    setTimeout(() => {
+        
+        this.newDiv.style.width = firstClick?.x - secondClick?.x + 'px';
+        this.newDiv.style.transform = 'translate(-100%, 0)';
+    }, 1);
   }
 
   stileLineaOrizontale(firstClick: any) {
