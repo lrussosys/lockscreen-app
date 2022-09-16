@@ -19,17 +19,6 @@ export class LockscreenComponent implements AfterViewInit {
 
   constructor(public patternService: PatternService, private router: Router) {}
 
-  dots: any = [
-    { i: 0 },
-    { i: 1 },
-    { i: 2 },
-    { i: 3 },
-    { i: 4 },
-    { i: 5 },
-    { i: 6 },
-    { i: 7 },
-    { i: 8 },
-  ];
   combinazioneEsatta = this.patternService.combinazioneCorretta;
 
   //animazione
@@ -56,7 +45,7 @@ export class LockscreenComponent implements AfterViewInit {
     if (document.elementFromPoint(x, y)?.classList.contains('innerDot')) {
       let elem: any = document?.elementFromPoint(x, y)?.innerHTML;
       let e = parseInt(elem);
-      dot = this.dots[e];
+      dot = this.patternService.dots[e];
       dot.selected = true;
     }
 
@@ -80,7 +69,7 @@ export class LockscreenComponent implements AfterViewInit {
         this.patternService.correct = false;
       }, TIMEOUTONTOUCHEND);
       this.patternService.removeLines();
-      this.dots.forEach((d: any) => {
+      this.patternService.dots.forEach((d: any) => {
         d.selected = false;
       });
     } else {
@@ -97,7 +86,7 @@ export class LockscreenComponent implements AfterViewInit {
     this.dot.forEach((HTMLel, i = 0) => {
       let elem = HTMLel.nativeElement.getBoundingClientRect();
 
-      this.dots[i] = {
+      this.patternService.dots[i] = {
         i: i,
         x: elem.x,
         y: elem.y,

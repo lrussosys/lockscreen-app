@@ -11,7 +11,7 @@
   <!-- <div class="line"></div> -->
   <div
     [ngClass]="dot.selected ? 'selected' : ''"
-    *ngFor="let dot of dots; index as i"
+    *ngFor="let dot of this.patternService.dots; index as i"
     class="dot"
     #dot
   >
